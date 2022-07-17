@@ -1,10 +1,11 @@
 package com.garyfimo.marvelapitest.data.util
 
-import com.garyfimo.marvelapitest.data.util.Constants.ALGORITHM_MD5
 import java.math.BigInteger
 import java.security.MessageDigest
 import javax.inject.Inject
 import javax.inject.Singleton
+
+private const val ALGORITHM_MD5 = "MD5"
 
 @Singleton
 class HashGenerator @Inject constructor() {
@@ -13,12 +14,7 @@ class HashGenerator @Inject constructor() {
         return run {
             val messageDigest = MessageDigest.getInstance(ALGORITHM_MD5)
             val bytes = messageDigest.digest(message.toByteArray())
-            val bigInteger = BigInteger(1, bytes)
-            var md5 = bigInteger.toString(16)
-            while (md5.length < 32) {
-                md5 = "0$md5"
-            }
-            md5
+            BigInteger(1, bytes).toString(16)
         }
     }
 }
