@@ -28,7 +28,6 @@ def setupAndroidReporting() {
                 sourcePath = "${productFlavorName}/${buildTypeName}"
             }
             def testTaskName = "test${sourceName.capitalize()}UnitTest"
-            System.out.println("Task -> $testTaskName")
 
             // Create coverage task of form 'testFlavorTypeCoverage' depending on 'testFlavorTypeUnitTest'
             task "${testTaskName}Coverage"(type: JacocoReport, dependsOn: "$testTaskName") {
@@ -71,17 +70,14 @@ def setupAndroidReporting() {
                 def javaTree = fileTree(dir: "${project.buildDir}/intermediates/javac/$sourceName/classes", excludes: fileFilter)
                 def kotlinTree = fileTree(dir: "${project.buildDir}/tmp/kotlin-classes/$sourceName", excludes: fileFilter)
                 classDirectories.from = files([javaTree], [kotlinTree])
-                executionData.from = files("${project.buildDir}/jacoco/${testTaskName}.exec")
-                def coverageSourceDirs = ["src/main/java",
-                                          "src/$productFlavorName/java",
-                                          "src/$buildTypeName/java"]
-
+                executionData.from = fileTree(dir: project.projectDir, includes: ['**/*.exec', '**/*.ec'])
+                def coverageSourceDirs = ["src/main/java", "src/$buildTypeName/java"]
                 sourceDirectories.setFrom(files(coverageSourceDirs))
                 additionalSourceDirs.setFrom(files(coverageSourceDirs))
 
                 reports {
                     csv.enabled false // change if needed
-                    xml.enabled false // change if needed
+                    xml.enabled true // change if needed
                     html {
                         enabled true
                         destination file("${buildDir}/coverage-report")
