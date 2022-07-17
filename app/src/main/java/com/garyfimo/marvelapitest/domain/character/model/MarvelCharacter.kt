@@ -1,4 +1,4 @@
-package com.garyfimo.marvelapitest.domain.character
+package com.garyfimo.marvelapitest.domain.character.model
 
 data class MarvelCharacter(
     val id: Int,
