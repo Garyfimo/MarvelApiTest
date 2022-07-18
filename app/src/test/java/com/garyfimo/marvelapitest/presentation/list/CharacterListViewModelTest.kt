@@ -1,11 +1,11 @@
-package com.garyfimo.marvelapitest.presentation
+package com.garyfimo.marvelapitest.presentation.list
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.garyfimo.marvelapitest.domain.character.BadMarvelRequestException
 import com.garyfimo.marvelapitest.domain.character.MarvelRepository
 import com.garyfimo.marvelapitest.domain.character.RequestStatus
 import com.garyfimo.marvelapitest.domain.character.model.MarvelCharacter
-import com.garyfimo.marvelapitest.presentation.list.CharacterListViewModel
+import com.garyfimo.marvelapitest.presentation.ScreenStatus
 import com.garyfimo.marvelapitest.utilTest.TestCoroutineRule
 import io.mockk.coEvery
 import io.mockk.mockk

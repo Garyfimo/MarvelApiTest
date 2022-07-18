@@ -17,9 +17,9 @@ interface MarvelService {
 
     @GET("characters/{id}")
     suspend fun getCharacterById(
+        @Path(value = "id") id: Int,
         @Query("hash") md5Digest: String,
         @Query("ts") timestamp: Long,
-        @Query("apikey") apiKey: String,
-        @Path(value = "id") id: Int
+        @Query("apikey") apiKey: String
     ): MarvelServiceResponse
 }

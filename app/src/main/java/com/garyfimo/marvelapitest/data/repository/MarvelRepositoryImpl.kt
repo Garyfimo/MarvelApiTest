@@ -35,10 +35,11 @@ class MarvelRepositoryImpl(
         val timestamp = System.currentTimeMillis()
         val hash = "$timestamp$privateKey$publicKey"
         return try {
-            val response = service.getCharacters(
+            val response = service.getCharacterById(
                 timestamp = timestamp,
                 md5Digest = hashGenerator.buildMD5Digest(hash),
-                apiKey = publicKey
+                apiKey = publicKey,
+                id = characterId
             )
             RequestStatus.build { response.data.characters.first().toEntity() }
         } catch (ex: HttpException) {

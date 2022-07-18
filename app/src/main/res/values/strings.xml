@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Marvel API Test</string>
+    <string name="marvel_character_list">Marvel Character List</string>
+    <string name="marvel_character_detail">%s profile detail</string>
+    <string name="character_description">%s does not have description. Marvel did not want to write anything about him/her. That\'s why we decided to write a small content for this incredible unknown hero!</string>
+    <string name="shield_logo_text">Shield logo</string>
+    <string name="batman_profile_text">Batman\'s face</string>
+    <string name="marvel_error_text">Seems like Thanos won!</string>
+    <string name="marvel_error_click_to_go_back_text">Click to go back!</string>
+    <string name="marvel_loading_text">Looking for the funniest heroes!</string>
+    <string name="me">Gary Figuerola Mora</string>
+    <string name="contact_me">Contact me!</string>
+    <string name="top_app_bar">TopAppBar icon</string>
 </resources>

@@ -23,7 +23,7 @@ android {
     }
 
     buildTypes {
-        debug{
+        debug {
             testCoverageEnabled true
             buildConfigField("String", "PUBLIC_KEY", "\"${marvelPublicKey}\"")
             buildConfigField("String", "PRIVATE_KEY", "\"${marvelPrivateKey}\"")
@@ -83,18 +83,19 @@ dependencies {
 
     // Tests
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
-
     testImplementation "androidx.arch.core:core-testing:2.1.0"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
-    androidTestImplementation  'com.google.dagger:hilt-android-testing:2.42'
-    kaptAndroidTest 'com.google.dagger:hilt-compiler:2.42'
     testImplementation 'com.squareup.okhttp3:mockwebserver:5.0.0-alpha.10'
     testImplementation "io.mockk:mockk:1.9.1"
     testImplementation "io.mockk:mockk-agent-jvm:1.9.1"
 
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+
+
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.42'
+    kaptAndroidTest 'com.google.dagger:hilt-compiler:2.42'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
 }
