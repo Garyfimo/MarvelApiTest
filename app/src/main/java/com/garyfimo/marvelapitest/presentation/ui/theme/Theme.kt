@@ -1,4 +1,4 @@
-package com.garyfimo.marvelapitest.ui.theme
+package com.garyfimo.marvelapitest.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

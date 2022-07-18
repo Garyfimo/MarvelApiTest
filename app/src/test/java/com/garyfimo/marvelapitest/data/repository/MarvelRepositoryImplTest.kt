@@ -1,6 +1,7 @@
 package com.garyfimo.marvelapitest.data.repository
 
 import com.garyfimo.marvelapitest.data.api.MarvelService
+import com.garyfimo.marvelapitest.data.util.ApiKeyInterceptor
 import com.garyfimo.marvelapitest.data.util.HashGenerator
 import com.garyfimo.marvelapitest.domain.character.RequestStatus
 import io.mockk.every
@@ -28,7 +29,12 @@ class MarvelRepositoryImplTest {
 
     private val marvelService = Retrofit.Builder()
         .baseUrl(mockWebServer.url("/"))
-        .client(OkHttpClient.Builder().build())
+        .client(
+            OkHttpClient
+                .Builder()
+                .addInterceptor(ApiKeyInterceptor(publicKey))
+                .build()
+        )
         .addConverterFactory(MoshiConverterFactory.create())
         .build()
         .create(MarvelService::class.java)
@@ -49,7 +55,10 @@ class MarvelRepositoryImplTest {
     @Test
     fun `test request fails when request characters`() {
         every { hashGenerator.buildMD5Digest(any()) } returns ""
-        mockWebServer.enqueueResponse("error_response_marvel_api.json")
+        mockWebServer.enqueueResponse(
+            responseCode = 409,
+            filePath = "error_response_marvel_api.json"
+        )
 
         runBlocking {
             val charactersResponse = marvelRepository.getCharacters()
@@ -59,9 +68,24 @@ class MarvelRepositoryImplTest {
     }
 
     @Test
+    fun `test request returns 409 when request characters`() {
+        every { hashGenerator.buildMD5Digest(any()) } returns ""
+        mockWebServer.enqueueResponse(
+            responseCode = 409,
+            filePath = "error_response_marvel_api.json"
+        )
+
+        runBlocking {
+            val charactersResponse = marvelRepository.getCharacterById(1010727)
+            val isError = charactersResponse is RequestStatus.Error
+            assert(isError)
+        }
+    }
+
+    @Test
     fun `test request success and character info is valid`() {
         every { hashGenerator.buildMD5Digest(any()) } returns ""
-        mockWebServer.enqueueResponse("success_response_marvel_api.json")
+        mockWebServer.enqueueResponse(filePath = "success_response_marvel_api.json")
 
         runBlocking {
             val charactersResponse = marvelRepository.getCharacters()
@@ -79,7 +103,23 @@ class MarvelRepositoryImplTest {
     @Test
     fun `test request fails when request character`() {
         every { hashGenerator.buildMD5Digest(any()) } returns ""
-        mockWebServer.enqueueResponse("error_response_marvel_api.json")
+        mockWebServer.enqueueResponse(filePath = "error_response_marvel_api.json")
+
+        runBlocking {
+            val charactersResponse = marvelRepository.getCharacterById(1010727)
+            val isError = charactersResponse is RequestStatus.Error
+            assert(isError)
+        }
+    }
+
+
+    @Test
+    fun `test request returns 409 when request character`() {
+        every { hashGenerator.buildMD5Digest(any()) } returns ""
+        mockWebServer.enqueueResponse(
+            responseCode = 409,
+            filePath = "error_response_marvel_api.json"
+        )
 
         runBlocking {
             val charactersResponse = marvelRepository.getCharacterById(1010727)
@@ -91,7 +131,7 @@ class MarvelRepositoryImplTest {
     @Test
     fun `test request success and character info is valid when id is given`() {
         every { hashGenerator.buildMD5Digest(any()) } returns ""
-        mockWebServer.enqueueResponse("success_response_spider-dok_marvel_api.json")
+        mockWebServer.enqueueResponse(filePath = "success_response_spider-dok_marvel_api.json")
 
         runBlocking {
             val charactersResponse = marvelRepository.getCharacterById(1010727)
@@ -106,13 +146,13 @@ class MarvelRepositoryImplTest {
     }
 }
 
-fun MockWebServer.enqueueResponse(filePath: String) {
+fun MockWebServer.enqueueResponse(responseCode: Int = 200, filePath: String) {
     val inputStream = javaClass.classLoader?.getResourceAsStream(filePath)
     val source = inputStream?.source()?.buffer()
     source?.let {
         enqueue(
             MockResponse()
-                .setResponseCode(200)
+                .setResponseCode(responseCode)
                 .setBody(it.readString(StandardCharsets.UTF_8))
         )
     }
