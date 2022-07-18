@@ -16,7 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.garyfimo.marvelapitest.utilTest.CustomTestRunner"
         vectorDrawables {
             useSupportLibrary true
         }
@@ -24,7 +24,8 @@ android {
 
     buildTypes {
         debug {
-            testCoverageEnabled true
+            // compose UI test fails when testCoverageEnabled true
+            testCoverageEnabled false
             buildConfigField("String", "PUBLIC_KEY", "\"${marvelPublicKey}\"")
             buildConfigField("String", "PRIVATE_KEY", "\"${marvelPrivateKey}\"")
             buildConfigField("String", "BASE_URL", "\"${baseUrl}\"")

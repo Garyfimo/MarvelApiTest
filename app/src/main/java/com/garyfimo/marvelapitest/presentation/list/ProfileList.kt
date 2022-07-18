@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -41,7 +42,7 @@ fun ProfileListScreen(
             topBar = {
                 AppBar(
                     title = stringResource(id = R.string.marvel_character_list),
-                    icon = Icons.Default.Home
+                    icon = Icons.Default.Home,
                 ) {
                     scope.launch {
                         scaffoldState.drawerState.open()
@@ -59,12 +60,14 @@ fun ProfileListScreen(
     }
 }
 
+const val LIST_TEST_TAG = "list_tag"
+
 @Composable
 fun ProfileList(
     characterProfiles: List<MarvelCharacter>,
     onCharacterCardClicked: (MarvelCharacter) -> Unit
 ) {
-    LazyColumn {
+    LazyColumn(modifier = Modifier.testTag(LIST_TEST_TAG)) {
         items(
             characterProfiles
         ) { characterProfile ->

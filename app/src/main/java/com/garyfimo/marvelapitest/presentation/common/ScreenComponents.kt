@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,6 +63,8 @@ fun <T> ScreenStatus(
     }
 }
 
+const val AppBarIcon = "app_bar_icon"
+
 @Composable
 fun AppBar(title: String, icon: ImageVector, onClick: () -> Unit) {
     TopAppBar(
@@ -70,6 +73,7 @@ fun AppBar(title: String, icon: ImageVector, onClick: () -> Unit) {
                 imageVector = icon,
                 contentDescription = stringResource(id = R.string.top_app_bar),
                 modifier = Modifier
+                    .testTag(AppBarIcon)
                     .padding(horizontal = 12.dp)
                     .clickable(onClick = onClick),
             )
