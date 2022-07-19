@@ -41,6 +41,7 @@ import com.garyfimo.marvelapitest.presentation.common.AppBar
 import com.garyfimo.marvelapitest.presentation.common.DrawerView
 import com.garyfimo.marvelapitest.presentation.common.ProfileImage
 import com.garyfimo.marvelapitest.presentation.common.ScreenStatus
+import com.garyfimo.marvelapitest.presentation.util.takeFirstWord
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -126,10 +127,11 @@ fun ProfileListCard(
         ) {
             ProfileImage(
                 marvelCharacter = marvelCharacter,
+                errorDrawable = R.drawable.ic_hulk,
                 size = 72.dp
             )
             Text(
-                text = marvelCharacter.name.split(" ").first(),
+                text = marvelCharacter.name.takeFirstWord(),
                 style = MaterialTheme.typography.h6,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp),
             )

@@ -39,7 +39,6 @@ import androidx.compose.ui.unit.dp
 import com.garyfimo.marvelapitest.R
 import com.garyfimo.marvelapitest.presentation.ScreenStatus
 import com.garyfimo.marvelapitest.presentation.triggerDeeplinkLinkedInGaryfimo
-import com.garyfimo.marvelapitest.presentation.ui.theme.MarvelLightRed
 import com.garyfimo.marvelapitest.presentation.ui.theme.MarvelRed
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -141,8 +140,8 @@ fun ErrorScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_shield_logo),
-                contentDescription = stringResource(id = R.string.shield_logo_text),
+                painter = painterResource(id = R.drawable.ic_thanos),
+                contentDescription = stringResource(id = R.string.thanos_profile_text),
                 modifier = Modifier
                     .size(148.dp)
             )
@@ -168,7 +167,7 @@ fun ErrorScreen(
 fun LoadingScreen() {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MarvelLightRed
+        color = Color.White
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -184,8 +183,8 @@ fun LoadingScreen() {
                 )
             )
             Image(
-                painter = painterResource(id = R.drawable.ic_shield_logo),
-                contentDescription = stringResource(id = R.string.shield_logo_text),
+                painter = painterResource(id = R.drawable.ic_avengers),
+                contentDescription = stringResource(id = R.string.avengers_logo_text),
                 modifier = Modifier
                     .size(148.dp)
                     .rotate(angle)
@@ -193,7 +192,7 @@ fun LoadingScreen() {
             Spacer(modifier = Modifier.size(16.dp))
             Text(
                 text = stringResource(id = R.string.marvel_loading_text),
-                color = Color.White,
+                color = MarvelRed,
                 style = MaterialTheme.typography.body2
             )
         }

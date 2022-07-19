@@ -3,7 +3,10 @@ package com.garyfimo.marvelapitest.data.repository
 import com.garyfimo.marvelapitest.data.api.MarvelService
 import com.garyfimo.marvelapitest.data.util.ApiKeyInterceptor
 import com.garyfimo.marvelapitest.data.util.HashGenerator
+import com.garyfimo.marvelapitest.domain.character.BadMarvelRequestException
+import com.garyfimo.marvelapitest.domain.character.NetworkException
 import com.garyfimo.marvelapitest.domain.character.RequestStatus
+import com.garyfimo.marvelapitest.domain.character.UnrecoverableException
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.unmockkAll
@@ -20,6 +23,7 @@ import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.nio.charset.StandardCharsets
+import java.util.concurrent.TimeUnit
 
 class MarvelRepositoryImplTest {
 
@@ -33,7 +37,9 @@ class MarvelRepositoryImplTest {
         .client(
             OkHttpClient
                 .Builder()
-                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BASIC))
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(ApiKeyInterceptor(publicKey))
                 .build()
         )
@@ -55,6 +61,35 @@ class MarvelRepositoryImplTest {
     }
 
     @Test
+    fun `test request fails for network error when request characters`() {
+        every { hashGenerator.buildMD5Digest(any()) } returns ""
+        mockWebServer.shutdown()
+
+        runBlocking {
+            val charactersResponse = marvelRepository.getCharacters()
+            val isError = charactersResponse is RequestStatus.Error
+            assert(isError)
+            if (charactersResponse is RequestStatus.Error) {
+                val isNetworkException = charactersResponse.error is NetworkException
+                assert(isNetworkException)
+            }
+        }
+    }
+
+    @Test
+    fun `test request fails for not valid md5 when request characters`() {
+        runBlocking {
+            val charactersResponse = marvelRepository.getCharacters()
+            val isError = charactersResponse is RequestStatus.Error
+            assert(isError)
+            if (charactersResponse is RequestStatus.Error) {
+                val isUnrecoverableException = charactersResponse.error is UnrecoverableException
+                assert(isUnrecoverableException)
+            }
+        }
+    }
+
+    @Test
     fun `test request fails when request characters`() {
         every { hashGenerator.buildMD5Digest(any()) } returns ""
         mockWebServer.enqueueResponse(
@@ -66,6 +101,11 @@ class MarvelRepositoryImplTest {
             val charactersResponse = marvelRepository.getCharacters()
             val isError = charactersResponse is RequestStatus.Error
             assert(isError)
+            if (charactersResponse is RequestStatus.Error) {
+                val isBadMarvelRequestException =
+                    charactersResponse.error is BadMarvelRequestException
+                assert(isBadMarvelRequestException)
+            }
         }
     }
 
@@ -81,6 +121,11 @@ class MarvelRepositoryImplTest {
             val charactersResponse = marvelRepository.getCharacterById(1010727)
             val isError = charactersResponse is RequestStatus.Error
             assert(isError)
+            if (charactersResponse is RequestStatus.Error) {
+                val isBadMarvelRequestException =
+                    charactersResponse.error is BadMarvelRequestException
+                assert(isBadMarvelRequestException)
+            }
         }
     }
 
@@ -103,14 +148,51 @@ class MarvelRepositoryImplTest {
     }
 
     @Test
-    fun `test request fails when request character`() {
+    fun `test request fails for network error when request character`() {
         every { hashGenerator.buildMD5Digest(any()) } returns ""
-        mockWebServer.enqueueResponse(filePath = "error_response_marvel_api.json")
+        mockWebServer.shutdown()
 
         runBlocking {
             val charactersResponse = marvelRepository.getCharacterById(1010727)
             val isError = charactersResponse is RequestStatus.Error
             assert(isError)
+            if (charactersResponse is RequestStatus.Error) {
+                val isNetworkException = charactersResponse.error is NetworkException
+                assert(isNetworkException)
+            }
+        }
+    }
+
+    @Test
+    fun `test request fails for not valid md5 when request character`() {
+        runBlocking {
+            val charactersResponse = marvelRepository.getCharacterById(1010727)
+            val isError = charactersResponse is RequestStatus.Error
+            assert(isError)
+            if (charactersResponse is RequestStatus.Error) {
+                val isUnrecoverableException = charactersResponse.error is UnrecoverableException
+                assert(isUnrecoverableException)
+            }
+        }
+    }
+
+    @Test
+    fun `test request fails when request character`() {
+        every { hashGenerator.buildMD5Digest(any()) } returns ""
+        mockWebServer.enqueueResponse(
+            responseCode = 409,
+            filePath = "error_response_marvel_api.json"
+        )
+
+        runBlocking {
+            val charactersResponse = marvelRepository.getCharacterById(1010727)
+            val isError = charactersResponse is RequestStatus.Error
+            assert(isError)
+            if (charactersResponse is RequestStatus.Error) {
+                val isBadMarvelRequestException =
+                    charactersResponse.error is BadMarvelRequestException
+                assert(isBadMarvelRequestException)
+            }
         }
     }
 
@@ -127,6 +209,11 @@ class MarvelRepositoryImplTest {
             val charactersResponse = marvelRepository.getCharacterById(1010727)
             val isError = charactersResponse is RequestStatus.Error
             assert(isError)
+            if (charactersResponse is RequestStatus.Error) {
+                val isBadMarvelRequestException =
+                    charactersResponse.error is BadMarvelRequestException
+                assert(isBadMarvelRequestException)
+            }
         }
     }
 

@@ -16,7 +16,7 @@ class MarvelCharacterMapperKtTest {
             name = "3-D Man",
             description = "",
             thumbnail = Image(
-                path = "http://fakeurl.com/thumbnail",
+                path = "https://fakeurl.com/thumbnail",
                 extension = "jpg"
             )
         )
@@ -24,7 +24,7 @@ class MarvelCharacterMapperKtTest {
             id = 1011334,
             name = "3-D Man",
             description = "",
-            thumbnailUrl = "http://fakeurl.com/thumbnail.jpg"
+            thumbnailUrl = "https://fakeurl.com/thumbnail.jpg"
         )
         val response = character.toEntity()
         assertEquals(expected, response)

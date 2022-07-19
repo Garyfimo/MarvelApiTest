@@ -31,7 +31,7 @@ class CharacterDetailViewModel @Inject constructor(
                 _characterDetailStatus.value = ScreenStatus.Success(response.value)
             } else {
                 response as RequestStatus.Error
-                _characterDetailStatus.value = ScreenStatus.Error(response.error.message)
+                _characterDetailStatus.value = ScreenStatus.Error
             }
         }
     }

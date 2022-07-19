@@ -11,6 +11,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -39,6 +40,8 @@ class NetworkModule {
     fun provideOkHttpClient(): OkHttpClient =
         OkHttpClient
             .Builder()
+            .readTimeout(60, TimeUnit.SECONDS)
+            .connectTimeout(60, TimeUnit.SECONDS)
             .addInterceptor(
                 HttpLoggingInterceptor().apply { setLevel(getHttpLoggingInterceptor()) })
             .build()
@@ -61,5 +64,5 @@ class NetworkModule {
         retrofit.create(MarvelService::class.java)
 
     private fun getHttpLoggingInterceptor() =
-        if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BASIC else HttpLoggingInterceptor.Level.NONE
+        if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
 }

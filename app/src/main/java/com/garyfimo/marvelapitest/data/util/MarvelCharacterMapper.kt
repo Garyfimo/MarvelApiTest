@@ -8,6 +8,6 @@ fun Character.toEntity(): MarvelCharacter {
         id = id,
         name = name,
         description = description,
-        thumbnailUrl = "${thumbnail.path}.${thumbnail.extension}"
+        thumbnailUrl = "${thumbnail.path.replaceHttpByHttps()}.${thumbnail.extension}"
     )
 }

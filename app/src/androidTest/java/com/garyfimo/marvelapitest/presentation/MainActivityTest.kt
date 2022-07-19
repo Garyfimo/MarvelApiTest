@@ -49,15 +49,15 @@ class MainActivityTest {
         composeTestRule.onNodeWithText(ERROR_TEXT).assertHasNoClickAction()
         composeTestRule.onNodeWithText(ERROR_RETRY_TEXT).assertIsDisplayed()
         composeTestRule.onNodeWithText(ERROR_RETRY_TEXT).assertHasClickAction()
-        composeTestRule.onNodeWithContentDescription(SHIELD_LOGO_TEXT).assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription(SHIELD_LOGO_TEXT).assertHasNoClickAction()
+        composeTestRule.onNodeWithContentDescription(THANOS_FACE_TEXT).assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription(THANOS_FACE_TEXT).assertHasNoClickAction()
     }
 
     @Test
     fun test_loading_screen() {
         (marvelRepository as MarvelRepositoryFakeImpl).setShouldAwait(true)
-        composeTestRule.onNodeWithContentDescription(SHIELD_LOGO_TEXT).assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription(SHIELD_LOGO_TEXT).assertHasNoClickAction()
+        composeTestRule.onNodeWithContentDescription(AVENGERS_LOGO_TEXT).assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription(AVENGERS_LOGO_TEXT).assertHasNoClickAction()
         composeTestRule.onNodeWithText(LOADING_TEXT).assertIsDisplayed()
         composeTestRule.onNodeWithText(LOADING_TEXT).assertHasNoClickAction()
     }
@@ -98,8 +98,8 @@ class MainActivityTest {
         composeTestRule.onNodeWithText(ERROR_TEXT).assertHasNoClickAction()
         composeTestRule.onNodeWithText(ERROR_GO_BACK_TEXT).assertIsDisplayed()
         composeTestRule.onNodeWithText(ERROR_GO_BACK_TEXT).assertHasClickAction()
-        composeTestRule.onNodeWithContentDescription(SHIELD_LOGO_TEXT).assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription(SHIELD_LOGO_TEXT).assertHasNoClickAction()
+        composeTestRule.onNodeWithContentDescription(THANOS_FACE_TEXT).assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription(THANOS_FACE_TEXT).assertHasNoClickAction()
     }
 
     @Test
@@ -110,8 +110,8 @@ class MainActivityTest {
             .performClick()
 
         (marvelRepository as MarvelRepositoryFakeImpl).setShouldAwait(true)
-        composeTestRule.onNodeWithContentDescription(SHIELD_LOGO_TEXT).assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription(SHIELD_LOGO_TEXT).assertHasNoClickAction()
+        composeTestRule.onNodeWithContentDescription(AVENGERS_LOGO_TEXT).assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription(AVENGERS_LOGO_TEXT).assertHasNoClickAction()
         composeTestRule.onNodeWithText(LOADING_TEXT).assertIsDisplayed()
         composeTestRule.onNodeWithText(LOADING_TEXT).assertHasNoClickAction()
     }
@@ -131,7 +131,8 @@ class MainActivityTest {
         const val ERROR_TEXT = "Seems like Thanos won!"
         const val ERROR_GO_BACK_TEXT = "Click to go back!"
         const val ERROR_RETRY_TEXT = "Click to retry!"
-        const val SHIELD_LOGO_TEXT = "Shield logo"
+        const val THANOS_FACE_TEXT = "Thanos' face"
+        const val AVENGERS_LOGO_TEXT = "Avengers logo"
         const val BATMAN_FACE_TEXT = "Batman's face"
         const val ME_TEXT = "Gary Figuerola Mora"
         const val CONTACT_ME_TEXT = "Click here to contact me!"

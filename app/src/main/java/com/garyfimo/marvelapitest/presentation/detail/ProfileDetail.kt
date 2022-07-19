@@ -75,6 +75,7 @@ fun ProfileDetail(
     ) {
         ProfileImage(
             marvelCharacter = marvelCharacter,
+            errorDrawable = R.drawable.ic_baby_groot,
             size = 344.dp
         )
         Column(

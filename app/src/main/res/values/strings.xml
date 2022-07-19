@@ -3,7 +3,8 @@
     <string name="marvel_character_list">Marvel Character List</string>
     <string name="marvel_character_detail">%s detail</string>
     <string name="character_description"><b>%s</b> does not have description. Marvel did not want to write anything about him/her. That\'s why we decided to write a small content for this incredible unknown hero!</string>
-    <string name="shield_logo_text">Shield logo</string>
+    <string name="thanos_profile_text">Thanos\' face</string>
+    <string name="avengers_logo_text">Avengers logo</string>
     <string name="batman_profile_text">Batman\'s face</string>
     <string name="marvel_error_text">Seems like Thanos won!</string>
     <string name="marvel_error_click_to_go_back_text">Click to go back!</string>

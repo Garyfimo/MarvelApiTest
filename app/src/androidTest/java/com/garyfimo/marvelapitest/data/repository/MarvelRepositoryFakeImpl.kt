@@ -13,7 +13,7 @@ class MarvelRepositoryFakeImpl @Inject constructor() : MarvelRepository {
     private var shouldAwait = false
 
     override suspend fun getCharacters(): RequestStatus<List<MarvelCharacter>, Exception> {
-        return if (shouldResponseError) RequestStatus.build { throw BadMarvelRequestException("this is an error") }
+        return if (shouldResponseError) RequestStatus.build { throw BadMarvelRequestException() }
         else {
             if (shouldAwait) delay(1000)
             RequestStatus.build { charactersResponse }
@@ -21,7 +21,7 @@ class MarvelRepositoryFakeImpl @Inject constructor() : MarvelRepository {
     }
 
     override suspend fun getCharacterById(characterId: Int): RequestStatus<MarvelCharacter, Exception> {
-        return if (shouldResponseError) RequestStatus.build { throw BadMarvelRequestException("this is an error") }
+        return if (shouldResponseError) RequestStatus.build { throw BadMarvelRequestException() }
         else {
             if (shouldAwait) delay(1000)
             RequestStatus.build { charactersResponse.first() }

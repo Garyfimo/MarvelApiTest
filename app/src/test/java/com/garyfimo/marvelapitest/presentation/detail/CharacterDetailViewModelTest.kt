@@ -3,7 +3,9 @@ package com.garyfimo.marvelapitest.presentation.detail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.garyfimo.marvelapitest.domain.character.BadMarvelRequestException
 import com.garyfimo.marvelapitest.domain.character.MarvelRepository
+import com.garyfimo.marvelapitest.domain.character.NetworkException
 import com.garyfimo.marvelapitest.domain.character.RequestStatus
+import com.garyfimo.marvelapitest.domain.character.UnrecoverableException
 import com.garyfimo.marvelapitest.domain.character.model.MarvelCharacter
 import com.garyfimo.marvelapitest.presentation.ScreenStatus
 import com.garyfimo.marvelapitest.utilTest.TestCoroutineRule
@@ -80,10 +82,44 @@ class CharacterDetailViewModelTest {
     }
 
     @Test
-    fun `test screenStatus error when repository return error`() {
+    fun `test screenStatus error when repository return BadMarvelRequestException`() {
         runTest {
-            coEvery { mockMarvelRepository.getCharacterById(1010727) } returns RequestStatus.build { throw  BadMarvelRequestException("this is error") }
-            val expected = ScreenStatus.Error("this is error")
+            coEvery { mockMarvelRepository.getCharacterById(1010727) } returns RequestStatus.build {
+                throw  BadMarvelRequestException()
+            }
+            val expected = ScreenStatus.Error
+            val job = launch { characterDetailViewModel.getCharacterById(1010727) }
+            // needs a delay to wait for response
+            delay(1)
+            val result = characterDetailViewModel.characterDetailStatus.value
+            Assert.assertEquals(expected, result)
+            job.cancel()
+        }
+    }
+
+    @Test
+    fun `test screenStatus error when repository return NetworkException`() {
+        runTest {
+            coEvery { mockMarvelRepository.getCharacterById(1010727) } returns RequestStatus.build {
+                throw  NetworkException()
+            }
+            val expected = ScreenStatus.Error
+            val job = launch { characterDetailViewModel.getCharacterById(1010727) }
+            // needs a delay to wait for response
+            delay(1)
+            val result = characterDetailViewModel.characterDetailStatus.value
+            Assert.assertEquals(expected, result)
+            job.cancel()
+        }
+    }
+
+    @Test
+    fun `test screenStatus error when repository return UnrecoverableException`() {
+        runTest {
+            coEvery { mockMarvelRepository.getCharacterById(1010727) } returns RequestStatus.build {
+                throw  UnrecoverableException()
+            }
+            val expected = ScreenStatus.Error
             val job = launch { characterDetailViewModel.getCharacterById(1010727) }
             // needs a delay to wait for response
             delay(1)

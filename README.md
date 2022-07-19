@@ -34,4 +34,5 @@ Code coverage report is created only for Unit Test because of I'm facing an erro
 Continuos inspection is on the cloud. You can check the analysis by clicking [here](https://sonarcloud.io/project/overview?id=Garyfimo_MarvelApiTest).
 
 ## To be done
-Generate report for UI test and export it to SonarQube
+- [ ] Generate report for UI test and export it to SonarQube
+- [ ] Add GitHub actions
