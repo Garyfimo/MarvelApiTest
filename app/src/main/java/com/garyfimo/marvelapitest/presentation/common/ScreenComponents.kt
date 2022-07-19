@@ -22,6 +22,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,10 +41,12 @@ import com.garyfimo.marvelapitest.presentation.ScreenStatus
 import com.garyfimo.marvelapitest.presentation.triggerDeeplinkLinkedInGaryfimo
 import com.garyfimo.marvelapitest.presentation.ui.theme.MarvelLightRed
 import com.garyfimo.marvelapitest.presentation.ui.theme.MarvelRed
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun <T> ScreenStatus(
     state: ScreenStatus<Any>,
+    errorText: String,
     onError: () -> Unit,
     onSuccess: @Composable (value: T) -> Unit
 ) {
@@ -58,7 +61,7 @@ fun <T> ScreenStatus(
             onSuccess(state.value as T)
         }
         is ScreenStatus.Error -> {
-            ErrorScreen(onError)
+            ErrorScreen(errorText, onError)
         }
     }
 }
@@ -91,12 +94,21 @@ fun DrawerView() {
             .background(color = Color.Black)
             .padding(start = 16.dp, top = 64.dp),
     ) {
+        val infiniteTransition = rememberInfiniteTransition()
+        val angle by infiniteTransition.animateFloat(
+            initialValue = 360F,
+            targetValue = 0F,
+            animationSpec = infiniteRepeatable(
+                animation = tween(5000, easing = LinearEasing)
+            )
+        )
         Image(
             painter = painterResource(id = R.drawable.ic_batman_profile),
             contentDescription = stringResource(id = R.string.batman_profile_text),
             colorFilter = ColorFilter.tint(Color.White),
             modifier = Modifier
                 .size(76.dp)
+                .rotate(angle)
         )
         Spacer(modifier = Modifier.size(16.dp))
         Text(
@@ -115,7 +127,10 @@ fun DrawerView() {
 }
 
 @Composable
-fun ErrorScreen(onClick: () -> Unit) {
+fun ErrorScreen(
+    errorText: String,
+    onClick: () -> Unit
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MarvelRed
@@ -139,7 +154,7 @@ fun ErrorScreen(onClick: () -> Unit) {
             )
             Spacer(modifier = Modifier.size(16.dp))
             Text(
-                text = stringResource(id = R.string.marvel_error_click_to_go_back_text),
+                text = errorText,
                 color = Color.White,
                 style = MaterialTheme.typography.body2,
                 modifier = Modifier.clickable(onClick = onClick)
@@ -182,5 +197,17 @@ fun LoadingScreen() {
                 style = MaterialTheme.typography.body2
             )
         }
+    }
+}
+
+@Composable
+fun ChangeSystemUiController() {
+    val systemUiController = rememberSystemUiController()
+    val useDarkIcons = MaterialTheme.colors.isLight
+    SideEffect {
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent,
+            darkIcons = useDarkIcons
+        )
     }
 }

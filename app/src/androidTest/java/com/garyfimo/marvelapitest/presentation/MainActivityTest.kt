@@ -47,8 +47,8 @@ class MainActivityTest {
         (marvelRepository as MarvelRepositoryFakeImpl).setShouldResponseError(true)
         composeTestRule.onNodeWithText(ERROR_TEXT).assertIsDisplayed()
         composeTestRule.onNodeWithText(ERROR_TEXT).assertHasNoClickAction()
-        composeTestRule.onNodeWithText(ERROR_GO_BACK_TEXT).assertIsDisplayed()
-        composeTestRule.onNodeWithText(ERROR_GO_BACK_TEXT).assertHasClickAction()
+        composeTestRule.onNodeWithText(ERROR_RETRY_TEXT).assertIsDisplayed()
+        composeTestRule.onNodeWithText(ERROR_RETRY_TEXT).assertHasClickAction()
         composeTestRule.onNodeWithContentDescription(SHIELD_LOGO_TEXT).assertIsDisplayed()
         composeTestRule.onNodeWithContentDescription(SHIELD_LOGO_TEXT).assertHasNoClickAction()
     }
@@ -130,11 +130,12 @@ class MainActivityTest {
         const val LOADING_TEXT = "Looking for the funniest heroes!"
         const val ERROR_TEXT = "Seems like Thanos won!"
         const val ERROR_GO_BACK_TEXT = "Click to go back!"
+        const val ERROR_RETRY_TEXT = "Click to retry!"
         const val SHIELD_LOGO_TEXT = "Shield logo"
         const val BATMAN_FACE_TEXT = "Batman's face"
         const val ME_TEXT = "Gary Figuerola Mora"
-        const val CONTACT_ME_TEXT = "Contact me!"
+        const val CONTACT_ME_TEXT = "Click here to contact me!"
         const val FIRST_CHARACTER_NAME_TEXT = "Spider-dok"
-        const val LAST_CHARACTER_NAME_TEXT = "A-Bomb (HAS)"
+        const val LAST_CHARACTER_NAME_TEXT = "A-Bomb"
     }
 }

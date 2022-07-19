@@ -12,7 +12,7 @@ interface MarvelService {
         @Query("hash") md5Digest: String,
         @Query("ts") timestamp: Long,
         @Query("apikey") apiKey: String,
-        @Query("limit") limit: Int = 10,
+        @Query("limit") limit: Int = 50,
     ): MarvelServiceResponse
 
     @GET("characters/{id}")

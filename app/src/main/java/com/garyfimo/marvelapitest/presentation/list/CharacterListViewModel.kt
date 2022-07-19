@@ -1,6 +1,5 @@
 package com.garyfimo.marvelapitest.presentation.list
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.garyfimo.marvelapitest.domain.character.MarvelRepository
@@ -26,7 +25,6 @@ class CharacterListViewModel @Inject constructor(
         getCharacters()
     }
 
-    @VisibleForTesting
     fun getCharacters() {
         viewModelScope.launch {
             _characterListStatus.value = ScreenStatus.Loading

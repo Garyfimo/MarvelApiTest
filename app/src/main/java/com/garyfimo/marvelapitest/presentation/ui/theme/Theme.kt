@@ -7,14 +7,14 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
+    primary = MarvelRed,
+    primaryVariant = Red700,
     secondary = Teal200
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
+    primary = MarvelRed,
+    primaryVariant = Red700,
     secondary = Teal200
 
     /* Other default colors to override
@@ -37,7 +37,6 @@ fun MarvelAPITestTheme(
     } else {
         LightColorPalette
     }
-
     MaterialTheme(
         colors = colors,
         typography = Typography,
